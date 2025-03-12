@@ -9,7 +9,7 @@
 <body>
     <a-scene>
         <a-assets>
-            <video id="video360" autoplay loop="true" crossorigin="anonymous" playsinline>
+            <video id="video360" loop="true" crossorigin="anonymous" playsinline>
                 <source src="https://shan21300.github.io/Holy-communion/VID_20250312_133249_00_001(1).mp4" type="video/mp4">
             </video>
         </a-assets>
@@ -24,9 +24,33 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var video = document.getElementById("video360");
+
+            // Try to autoplay (fallback for devices that allow it)
             video.play().catch(error => {
-                console.log("Autoplay prevented. Click to play.");
+                console.log("Autoplay prevented. Waiting for WebSocket trigger...");
             });
+
+            // WebSocket Setup
+            var ws = new WebSocket("ws://YOUR-IP:8080"); // Replace with your actual server IP
+
+            ws.onopen = function() {
+                console.log("Connected to WebSocket server.");
+            };
+
+            ws.onmessage = function(event) {
+                if (event.data === "PLAY") {
+                    console.log("Received PLAY command from Isadora.");
+                    video.play();
+                }
+            };
+
+            ws.onerror = function(error) {
+                console.error("WebSocket error:", error);
+            };
+
+            ws.onclose = function() {
+                console.log("WebSocket connection closed.");
+            };
         });
     </script>
 </body>
