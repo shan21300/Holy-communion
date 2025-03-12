@@ -1,1 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VR Video Player</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+</head>
+<body>
+    <a-scene>
+        <a-assets>
+            <video id="video360" autoplay loop="true" src="video.mp4" crossorigin="anonymous"></video>
+        </a-assets>
+        <a-videosphere src="#video360"></a-videosphere>
+        <a-camera position="0 0 0">
+            <a-cursor></a-cursor>
+        </a-camera>
+    </a-scene>
+</body>
+</html>
 
